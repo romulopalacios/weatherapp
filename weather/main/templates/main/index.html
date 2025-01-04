@@ -1,49 +1,87 @@
+<!-- 
+
+This HTML template is used for the main page of a weather application. It includes the following sections:
+
+1. Head Section:
+    - Sets the character encoding to UTF-8.
+    - Sets the title of the page to "Weather".
+    - Includes Bootstrap CSS for styling.
+    - Includes jQuery library for JavaScript functionality.
+    - Includes Bootstrap JavaScript for additional UI components.
+
+2. Body Section:
+    - Navigation bar with a green background and white text displaying the title "Weather".
+    - A centered form for searching weather information by city:
+      - Uses POST method and includes CSRF token for security.
+      - Contains an input field for entering the city name.
+      - Contains a submit button with a search icon.
+    - A conditional block that displays weather information if the required variables (country_code, coordinate, temp, pressure, humidity) are available:
+      - Displays country code, coordinates, temperature, pressure, and humidity.
+
+Note: The form and weather information are styled using Bootstrap classes for responsive design.
+
+Developed by Rsomulo Palacios
+-->
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title>weather</title>
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-
-  <!-- jQuery library -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-  <!-- Latest compiled JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-  <nav class="row" style="background: green; color: white;">
-    <h1 class="col-md-3 text-center">weather</h1>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">Weather</a>
   </nav>
-  <br />
-  <br />
-  <center class="row">
-    <form method="post" class="col-md-6 col-md-offset-3">
-      {% csrf_token %}
-      <div class="input-group">
-        <input type="text" class="form-control" name="city" placeholder="Search">
-        <div class="input-group-btn">
-          <button class="btn btn-default" type="submit">
-            <i class="glyphicon glyphicon-search"></i>
-          </button>
-        </div>
+
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form method="post" class="form-inline">
+          {% csrf_token %}
+          <div class="input-group w-100">
+            <input type="text" class="form-control" name="city" placeholder="Enter city name">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="submit">
+                <i class="fas fa-search"></i> Search
+              </button>
+            </div>
+          </div>
         </form>
-  </center>
-  <div class="row">
+      </div>
+    </div>
+
     {% if country_code and coordinate and temp and pressure and humidity %}
-    <div class="col-md-6 col-md-offset-3">
-      <h3>country code : {{country_code}}</h1>
-        <h5>coordinate : {{coordinate}}</h5>
-        <h5>temp : {{temp}}</h5>
-        <h5>pressure : {{pressure}} </h5>
-        <h5>humidity : {{humidity}}</h5>
+    <div class="row justify-content-center mt-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Weather Information</h5>
+            <p class="card-text">Country Code: {{ country_code }}</p>
+            <p class="card-text">Coordinates: {{ coordinate }}</p>
+            <p class="card-text">Temperature: {{ temp }}°C</p>
+            <p class="card-text">Pressure: {{ pressure }} hPa</p>
+            <p class="card-text">Humidity: {{ humidity }}%</p>
+          </div>
+        </div>
+      </div>
     </div>
     {% endif %}
   </div>
+
+  <footer class="bg-primary text-white text-center py-3 mt-5">
+    Developed by ROMULO PALACIOS
+  </footer>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </body>
 
 </html>
